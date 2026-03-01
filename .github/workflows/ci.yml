@@ -50,11 +50,40 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-  # 3. publish package (only on main and after successful tests)
+  # 3. storybook deployment (only on main and after successful tests)
+  storybook:
+    name: Deploy Storybook
+    needs: test
+    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    permissions:
+      id-token: write
+      pages: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.30.0
+      - run: pnpm install
+      - run: pnpm build-storybook
+      - name: Configure Pages
+        uses: actions/configure-pages@v4
+      - name: Upload Storybook
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: storybook-static
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+
+  # 4. publish package (only on releases and after successful tests)
   publish:
     name: Publish package
     needs: test
-    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    # only run when a release is published and tests succeeded
+    if: github.event_name == 'release' && github.event.action == 'published' && needs.test.result == 'success'
     permissions:
       packages: write
     runs-on: ubuntu-latest
@@ -85,34 +114,6 @@ jobs:
           NEWVER: ${{ steps.version.outputs.NEWVER }}
       - run: pnpm install
       - run: pnpm build
-      - run: pnpm publish --access public
+      - run: pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # 4. storybook deployment (only on main and after successful tests)
-  storybook:
-    name: Deploy Storybook
-    needs: test
-    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
-    permissions:
-      id-token: write
-      pages: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 22
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 10.30.0
-      - run: pnpm install
-      - run: pnpm build-storybook
-      - name: Configure Pages
-        uses: actions/configure-pages@v4
-      - name: Upload Storybook
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: storybook-static
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
