@@ -1,13 +1,17 @@
 name: Publish Storybook
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
 
 jobs:
   storybook-pages:
-    # optionally depend on lint/test jobs if you have them
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+jobs:
+  storybook-pages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

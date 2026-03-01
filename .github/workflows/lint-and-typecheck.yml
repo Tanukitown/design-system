@@ -1,5 +1,11 @@
 name: Lint and Typecheck
 
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
   lint-and-typecheck:
     runs-on: ubuntu-latest
