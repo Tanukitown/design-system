@@ -45,6 +45,10 @@ jobs:
         with:
           name: coverage-xml
           path: coverage/cobertura-coverage.xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   # 3. publish package (only on main and after successful tests)
   publish:
@@ -52,7 +56,6 @@ jobs:
     needs: test
     if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
     permissions:
-      contents: read
       packages: write
     runs-on: ubuntu-latest
     steps:
@@ -75,6 +78,8 @@ jobs:
     name: Deploy Storybook
     needs: test
     if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

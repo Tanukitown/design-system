@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Tanukitown/design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/Tanukitown/design-system/actions/workflows/ci.yml)
 [![Storybook](https://github.com/Tanukitown/design-system/actions/workflows/ci.yml/badge.svg?event=workflow_run)](https://tanukitown.github.io/design-system/)
-[![Coverage](https://img.shields.io/badge/coverage-unknown-lightgrey.svg)](https://github.com/Tanukitown/design-system/actions)
+[![Coverage](https://img.shields.io/codecov/c/gh/Tanukitown/design-system.svg)](https://codecov.io/gh/Tanukitown/design-system)
 
 A React component library built with TypeScript, TailwindCSS, and Vite. Organized by atomic design principles.
 
