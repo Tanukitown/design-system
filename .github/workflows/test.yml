@@ -1,0 +1,27 @@
+name: Test
+
+jobs:
+  test:
+    needs: lint-and-typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          registry-url: "https://github.com/Tanukitown/design-system"
+          cache: "pnpm"
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.30.0
+          cache: true
+      - run: pnpm install
+      - run: pnpm run test:coverage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-junit-report
+          path: reports/junit.xml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage-xml
+          path: coverage/cobertura-coverage.xml

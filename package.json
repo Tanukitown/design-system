@@ -1,0 +1,77 @@
+{
+  "name": "@tanukitown/design-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/tanukitown-design-system.cjs.js",
+  "module": "dist/tanukitown-design-system.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/tanukitown-design-system.es.js",
+    "require": "./dist/tanukitown-design-system.cjs.js"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "lint": "tsc --noEmit && eslint --format table --color .",
+    "lint:fix": "eslint --format table --color --fix .",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "prepare": "pnpm build"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "design-system",
+    "react",
+    "tailwind",
+    "components"
+  ],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "pnpm@10.29.3",
+  "peerDependencies": {
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@storybook/addon-essentials": "^8.6.17",
+    "@storybook/builder-vite": "^8.6.17",
+    "@storybook/react": "^8.6.17",
+    "@storybook/react-vite": "8.6.17",
+    "@tailwindcss/postcss": "^4.2.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^25.3.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/coverage-v8": "4.0.18",
+    "autoprefixer": "^10.4.27",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-formatter-table": "^7.32.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prefer-arrow-functions": "^3.9.1",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "globals": "^17.3.0",
+    "jsdom": "^28.1.0",
+    "postcss": "^8.5.6",
+    "postcss-load-config": "^6.0.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "storybook": "8.6.17",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  }
+}

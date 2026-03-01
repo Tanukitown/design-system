@@ -1,0 +1,37 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Format on save using workspace Prettier (ensures plugins are loaded)
+  "editor.formatOnSave": true,
+
+  // Run all available auto-fixers on save and ensure ESLint fixes run
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.fixAll.eslint": "always"
+  },
+
+  // Make sure ESLint resolves using the frontend folder (local config)
+  "eslint.workingDirectories": [
+    {
+      "directory": ".",
+      "changeProcessCWD": true
+    }
+  ],
+
+  // Ensure ESLint validates TSX so `prettier/prettier` issues are shown
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // Force the Prettier extension to use the workspace Prettier so plugin
+  // `prettier-plugin-tailwindcss` is discovered and applied
+  "prettier.prettierPath": "./node_modules/prettier/index.js",
+  "prettier.requireConfig": true,
+  "prettier.pluginSearchDirs": ["./node_modules"],
+
+  // Show status in the status bar
+  "eslint.alwaysShowStatus": true
+}
