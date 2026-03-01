@@ -21,8 +21,7 @@
     "lint": "tsc --noEmit && eslint --format table --color .",
     "lint:fix": "eslint --format table --color --fix .",
     "test": "vitest",
-    "test:coverage": "vitest --coverage",
-    "prepare": "pnpm build"
+    "test:coverage": "vitest --coverage"
   },
   "sideEffects": false,
   "files": [

@@ -1,5 +1,9 @@
 # Tanukitown Design System
 
+[![CI](https://github.com/Tanukitown/design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/Tanukitown/design-system/actions/workflows/ci.yml)
+[![Storybook](https://github.com/Tanukitown/design-system/actions/workflows/ci.yml/badge.svg?event=workflow_run)](https://tanukitown.github.io/design-system/)
+[![Coverage](https://img.shields.io/badge/coverage-unknown-lightgrey.svg)](https://github.com/Tanukitown/design-system/actions)
+
 A React component library built with TypeScript, TailwindCSS, and Vite. Organized by atomic design principles.
 
 ## Getting started

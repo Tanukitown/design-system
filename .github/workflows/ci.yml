@@ -1,0 +1,93 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # 1. linting & type checking
+  lint:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.30.0
+      - run: pnpm install
+      - run: pnpm run lint
+
+  # 2. unit tests (depends on lint success)
+  test:
+    name: Unit tests
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.30.0
+      - run: pnpm install
+      - run: pnpm run test:coverage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: junit-report
+          path: reports/junit.xml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage/cobertura-coverage.xml
+
+  # 3. publish package (only on main and after successful tests)
+  publish:
+    name: Publish package
+    needs: test
+    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com/
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.30.0
+      - run: pnpm install
+      - run: pnpm build
+      - run: pnpm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # 4. storybook deployment (only on main and after successful tests)
+  storybook:
+    name: Deploy Storybook
+    needs: test
+    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.30.0
+      - run: pnpm install
+      - run: pnpm build-storybook
+      - name: Configure Pages
+        uses: actions/configure-pages@v3
+      - name: Upload Storybook
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: storybook-static
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
